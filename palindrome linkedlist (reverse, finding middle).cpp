@@ -59,61 +59,77 @@ const int mod = 1e9 + 7;
 
 /*
 
-
+https://www.interviewbit.com/problems/palindrome-list/
 
 */
 
-struct Node
+struct ListNode
 {
-    int data;
-    struct Node *next;
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-void removeloop(Node *loopNode, Node *head)
+ListNode *reverse(ListNode *head)
 {
-    Node *ptr1;
-    Node *ptr2;
+    ListNode *cur = head;
+    ListNode *prev = NULL;
+    ListNode *next = NULL;
 
-    ptr1 = head;
-    while (1)
+    while (cur != NULL)
     {
-        ptr2 = loopNode;
-        while (ptr2->next != loopNode and ptr2->next != ptr1)
-        {
-            ptr2 = ptr2->next;
+        next = cur->next;
+        cur->next = prev;
 
-            if (ptr2->next == ptr1)
-            {
-                break;
-            }
-
-            ptr1 = ptr1->next;
-        }
+        prev = cur;
+        cur = next;
     }
-    ptr2->next = NULL;
-}
 
-int detect(Node *A)
+    return prev;
+}
+int Solution::lPalin(ListNode *head)
 {
-    Node *slow = A;
-    Node *fast = A;
-    while (slow and fast and fast->next)
+
+    if (!head or !head->next)
+    {
+        return 1;
+    }
+    if (head->next->next == NULL)
+    {
+        if (head->val == head->next->val)
+        {
+            return 1;
+        }
+        return 0;
+    }
+    ListNode *slow = head;
+    ListNode *fast = head;
+
+    while (fast->next and fast->next->next)
     {
         slow = slow->next;
         fast = fast->next->next;
-
-        if (slow == fast)
-        {
-            removeloop(slow, A);
-            return 1;
-        }
     }
-    return 0;
+
+    ListNode *temp = reverse(slow->next);
+
+    while (temp != NULL)
+    {
+        if (head->val != temp->val)
+        {
+            return 0;
+        }
+        head = head->next;
+        temp = temp->next;
+    }
+
+    return 1;
 }
 
 void solve()
 {
-    // at first detect is called
 }
 
 int32_t main()

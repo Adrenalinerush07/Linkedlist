@@ -58,62 +58,44 @@ const int N = 2e5 + 4;
 const int mod = 1e9 + 7;
 
 /*
-
-
-
 */
 
 struct Node
 {
     int data;
-    struct Node *next;
+    Node *next;
 };
 
-void removeloop(Node *loopNode, Node *head)
+Node *newNode(int data)
 {
-    Node *ptr1;
-    Node *ptr2;
-
-    ptr1 = head;
-    while (1)
-    {
-        ptr2 = loopNode;
-        while (ptr2->next != loopNode and ptr2->next != ptr1)
-        {
-            ptr2 = ptr2->next;
-
-            if (ptr2->next == ptr1)
-            {
-                break;
-            }
-
-            ptr1 = ptr1->next;
-        }
-    }
-    ptr2->next = NULL;
+    Node *new_node = new Node;
+    new_node->data = data;
+    new_node->next = NULL;
+    return new_node;
+}
+void push(Node **head_ref, int new_data)
+{
+    Node *new_node = new Node();
+    new_node->data = new_data;
+    new_node->next = (*head_ref);
+    (*head_ref) = new_node;
 }
 
-int detect(Node *A)
-{
-    Node *slow = A;
-    Node *fast = A;
-    while (slow and fast and fast->next)
-    {
-        slow = slow->next;
-        fast = fast->next->next;
-
-        if (slow == fast)
-        {
-            removeloop(slow, A);
-            return 1;
-        }
+bool isCircular(Node* head){
+    if(head==NULL){
+        return 1;
     }
-    return 0;
+    Node* node=head->next;
+
+    while(node!=NULL and node!=head){
+        node->next;
+    }
+
+    return (node==head);
 }
 
 void solve()
 {
-    // at first detect is called
 }
 
 int32_t main()

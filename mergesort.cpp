@@ -58,9 +58,6 @@ const int N = 2e5 + 4;
 const int mod = 1e9 + 7;
 
 /*
-
-
-
 */
 
 struct Node
@@ -91,20 +88,17 @@ void FrontBackSplit(Node *source, Node **frontRef, Node **backRef)
 
     while (fast != NULL)
     {
-        while (fast != NULL)
+        fast = fast->next;
+        if (fast != NULL)
         {
+            slow = slow->next;
             fast = fast->next;
-            if (fast != NULL)
-            {
-                slow = slow->next;
-                fast = fast->next;
-            }
         }
     }
 
     *frontRef = source;
     *backRef = slow->next;
-    slow->next;
+    slow->next = NULL;
 }
 
 Node *SortedMerge(Node *a, Node *b)
